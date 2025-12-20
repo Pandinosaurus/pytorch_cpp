@@ -38,7 +38,7 @@ datasets
 
 ### 3. Image Generation
 
-#### Example 1 (Content: Neckarfront, Style: TheStarryNight)
+#### Example 1 (Content: Neckarfront, Style: The Starry Night)
 
 ##### Setting
 Please set the shell for executable file.
@@ -67,7 +67,7 @@ Please execute the following to start the program.
 $ sh scripts/Neckarfront_TheStarryNight.sh
 ~~~
 
-#### Example 2 (Content: Neckarfront, Style: TheScream)
+#### Example 2 (Content: Neckarfront, Style: The Scream)
 
 ##### Setting
 Please set the shell for executable file.
