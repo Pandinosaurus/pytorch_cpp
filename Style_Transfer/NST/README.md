@@ -38,7 +38,10 @@ datasets
 
 ### 3. Image Generation
 
-#### Example 1 (Content: "Neckarfront" by Andreas Praefcke, Style: "The Starry Night" by Vincent van Gogh)
+#### Example 1
+
+- Content: "Neckarfront" by Andreas Praefcke
+- Style: "The Starry Night" by Vincent van Gogh
 
 ##### Setting
 Please set the shell for executable file.
@@ -67,7 +70,10 @@ Please execute the following to start the program.
 $ sh scripts/Neckarfront_TheStarryNight.sh
 ~~~
 
-#### Example 2 (Content: "Neckarfront" by Andreas Praefcke, Style: "The Scream" by Edvard Munch)
+#### Example 2
+
+- Content: "Neckarfront" by Andreas Praefcke
+- Style: "The Scream" by Edvard Munch
 
 ##### Setting
 Please set the shell for executable file.
