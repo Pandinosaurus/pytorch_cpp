@@ -78,8 +78,14 @@ $ sh scripts/Neckarfront_TheStarryNight.sh
 
 #### Example 2
 
-- Content: "Tuebingen Neckarfront" — Andreas Praefcke (Wikimedia Commons), CC BY 3.0. Changes: resized for NST input.
-- Style: "The Scream" — Edvard Munch (1893), Public Domain (via Wikimedia Commons). Changes: resized for NST input.
+- **Content: "Tuebingen Neckarfront" — Andreas Praefcke.** <br>
+  Source: https://commons.wikimedia.org/wiki/File:Tuebingen_Neckarfront.jpg. <br>
+  License: CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/). <br>
+  Changes: resized for NST input.
+- **Style: "The Scream" — Edvard Munch** <br>
+  Source: https://commons.wikimedia.org/wiki/File:The_Scream.jpg <br>
+  License: Public Domain <br>
+  Changes: resized for NST input.
 
 ##### Setting
 Please set the shell for executable file.
