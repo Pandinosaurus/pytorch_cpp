@@ -24,7 +24,6 @@ $ cd ..
 
 #### Setting
 
-Please create a link for the dataset.<br>
 The following hierarchical relationships are recommended.
 
 ~~~
