@@ -42,7 +42,7 @@ datasets
 
 - **Content: "Tuebingen Neckarfront" — Andreas Praefcke.** <br>
   Source: https://commons.wikimedia.org/wiki/File:Tuebingen_Neckarfront.jpg. <br>
-  License: CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/). <br>
+  License: CC BY 3.0 Unported (https://creativecommons.org/licenses/by/3.0/). <br>
   Changes: resized for NST input.
 - **Style: "The Starry Night" — Vincent van Gogh** <br>
   Source: https://commons.wikimedia.org/wiki/File:Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg <br>
@@ -80,7 +80,7 @@ $ sh scripts/Neckarfront_TheStarryNight.sh
 
 - **Content: "Tuebingen Neckarfront" — Andreas Praefcke.** <br>
   Source: https://commons.wikimedia.org/wiki/File:Tuebingen_Neckarfront.jpg. <br>
-  License: CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/). <br>
+  License: CC BY 3.0 Unported (https://creativecommons.org/licenses/by/3.0/). <br>
   Changes: resized for NST input.
 - **Style: "The Scream" — Edvard Munch** <br>
   Source: https://commons.wikimedia.org/wiki/File:The_Scream.jpg <br>
