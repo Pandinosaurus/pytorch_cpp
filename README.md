@@ -60,6 +60,7 @@ $ sh scripts/test.sh
 
 ## 🔄 Updates (MM/DD/YYYY)
 
+12/20/2025: Implementation of `NST` <br>
 12/06/2025: Release of `v2.9.1.4` <br>
 12/01/2025: Release of `v2.9.1.3` <br>
 12/01/2025: Implementation of `PatchCore` <br>
@@ -69,11 +70,11 @@ $ sh scripts/test.sh
 11/27/2025: Release of `v2.9.1.1` <br>
 11/24/2025: Implementation of `ESRGAN` <br>
 11/21/2025: Implementation of `SRGAN` <br>
-11/19/2025: Implementation of `DiT` <br>
 
 <details>
 <summary>See more...</summary>
   
+11/19/2025: Implementation of `DiT` <br>
 11/14/2025: Release of `v2.9.1` <br>
 11/01/2025: Implementation of `NeRF` and `3DGS` <br>
 10/16/2025: Release of `v2.9.0` <br>
@@ -416,6 +417,23 @@ $ sh scripts/test.sh
     <td><a href="https://openaccess.thecvf.com/content_eccv_2018_workshops/w25/html/Wang_ESRGAN_Enhanced_Super-Resolution_Generative_Adversarial_Networks_ECCVW_2018_paper.html">X. Wang et al.</a></td>
     <td>ECCV 2018</td>
     <td><a href="Super_Resolution/ESRGAN">ESRGAN</a></td>
+  </tr>
+</table>
+
+### 🖌️ Style Transfer
+
+<table>
+  <tr>
+    <th>Model</th>
+    <th>Paper</th>
+    <th>Conference/Journal</th>
+    <th>Code</th>
+  </tr>
+  <tr>
+    <td>Neural Style Transfer</td>
+    <td><a href="https://openaccess.thecvf.com/content_cvpr_2016/html/Gatys_Image_Style_Transfer_CVPR_2016_paper.html">L. A. Gatys et al.</a></td>
+    <td>CVPR 2016</td>
+    <td><a href="Style_Transfer/NST">NST</a></td>
   </tr>
 </table>
 
