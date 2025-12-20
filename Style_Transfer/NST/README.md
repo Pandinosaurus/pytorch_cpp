@@ -40,8 +40,8 @@ datasets
 
 #### Example 1
 
-- Content: "Neckarfront" by Andreas Praefcke
-- Style: "The Starry Night" by Vincent van Gogh
+- Content: Andreas Praefcke, Tuebingen Neckarfront (Feb 2003), CC BY 3.0, via Wikimedia Commons.
+- Style: Vincent van Gogh, The Starry Night (1889), Public Domain, via Wikimedia Commons.
 
 ##### Setting
 Please set the shell for executable file.
@@ -72,8 +72,8 @@ $ sh scripts/Neckarfront_TheStarryNight.sh
 
 #### Example 2
 
-- Content: "Neckarfront" by Andreas Praefcke
-- Style: "The Scream" by Edvard Munch
+- Content: Andreas Praefcke, Tuebingen Neckarfront (Feb 2003), CC BY 3.0, via Wikimedia Commons.
+- Style: Edvard Munch, The Scream (1893), Public Domain / CC0 (depends on the file), via Wikimedia Commons.
 
 ##### Setting
 Please set the shell for executable file.
