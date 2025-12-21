@@ -46,14 +46,14 @@ datasets
 ##### Setting
 Please set the shell for executable file.
 ~~~
-$ vi scripts/Neckarfront_TheStarryNight.sh
+$ vi scripts/TheStarryNight.sh
 ~~~
 The following is an example of the generation phase.<br>
 If you want to view specific examples of command line arguments, please view "src/main.cpp" or add "--help" to the argument.
 ~~~
 #!/bin/bash
 
-DATA='Neckarfront_TheStarryNight'
+DATA='TheStarryNight'
 
 ./NST \
     --generate true \
@@ -67,7 +67,7 @@ DATA='Neckarfront_TheStarryNight'
 ##### Run
 Please execute the following to start the program.
 ~~~
-$ sh scripts/Neckarfront_TheStarryNight.sh
+$ sh scripts/TheStarryNight.sh
 ~~~
 
 #### Example 2
@@ -78,14 +78,14 @@ $ sh scripts/Neckarfront_TheStarryNight.sh
 ##### Setting
 Please set the shell for executable file.
 ~~~
-$ vi scripts/Neckarfront_TheScream.sh
+$ vi scripts/TheScream.sh
 ~~~
 The following is an example of the generation phase.<br>
 If you want to view specific examples of command line arguments, please view "src/main.cpp" or add "--help" to the argument.
 ~~~
 #!/bin/bash
 
-DATA='Neckarfront_TheScream'
+DATA='TheScream'
 
 ./NST \
     --generate true \
@@ -99,6 +99,6 @@ DATA='Neckarfront_TheScream'
 ##### Run
 Please execute the following to start the program.
 ~~~
-$ sh scripts/Neckarfront_TheScream.sh
+$ sh scripts/TheScream.sh
 ~~~
 
