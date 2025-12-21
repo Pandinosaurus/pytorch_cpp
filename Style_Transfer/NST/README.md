@@ -40,14 +40,8 @@ datasets
 
 #### Example 1
 
-- **Content: "Tuebingen Neckarfront" — Andreas Praefcke.** <br>
-  Source: https://commons.wikimedia.org/wiki/File:Tuebingen_Neckarfront.jpg. <br>
-  License: CC BY 3.0 Unported (https://creativecommons.org/licenses/by/3.0/). <br>
-  Changes: resized for NST input.
-- **Style: "The Starry Night" — Vincent van Gogh** <br>
-  Source: https://commons.wikimedia.org/wiki/File:Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg <br>
-  License: Public Domain <br>
-  Changes: resized for NST input.
+- **Content: "Tokyo Night View" — Hiroki Kobayashi** 
+- **Style: "The Starry Night" — Vincent van Gogh**
 
 ##### Setting
 Please set the shell for executable file.
@@ -78,14 +72,8 @@ $ sh scripts/Neckarfront_TheStarryNight.sh
 
 #### Example 2
 
-- **Content: "Tuebingen Neckarfront" — Andreas Praefcke.** <br>
-  Source: https://commons.wikimedia.org/wiki/File:Tuebingen_Neckarfront.jpg. <br>
-  License: CC BY 3.0 Unported (https://creativecommons.org/licenses/by/3.0/). <br>
-  Changes: resized for NST input.
-- **Style: "The Scream" — Edvard Munch** <br>
-  Source: https://commons.wikimedia.org/wiki/File:The_Scream.jpg <br>
-  License: Public Domain <br>
-  Changes: resized for NST input.
+- **Content: "Tokyo Night View" — Hiroki Kobayashi** 
+- **Style: "The Scream" — Edvard Munch**
 
 ##### Setting
 Please set the shell for executable file.
