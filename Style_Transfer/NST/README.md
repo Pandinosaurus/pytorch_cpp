@@ -41,7 +41,10 @@ datasets
 #### Example 1
 
 - **Content: "Tokyo Night View" — Hiroki Kobayashi** 
-- **Style: "The Starry Night" — Vincent van Gogh**
+- **Style: "The Starry Night" — Vincent van Gogh** <br>
+  Source: https://commons.wikimedia.org/wiki/File:Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg <br>
+  License: Public Domain <br>
+  Changes: resized for NST input.
 
 ##### Setting
 Please set the shell for executable file.
@@ -73,7 +76,10 @@ $ sh scripts/TheStarryNight.sh
 #### Example 2
 
 - **Content: "Tokyo Night View" — Hiroki Kobayashi** 
-- **Style: "The Scream" — Edvard Munch**
+- **Style: "The Scream" — Edvard Munch** <br>
+  Source: https://commons.wikimedia.org/wiki/File:The_Scream.jpg <br>
+  License: Public Domain <br>
+  Changes: resized for NST input.
 
 ##### Setting
 Please set the shell for executable file.
