@@ -60,6 +60,7 @@ $ sh scripts/test.sh
 
 ## 🔄 Updates (MM/DD/YYYY)
 
+12/22/2025: Implementation of `AdaIN` <br>
 12/20/2025: Implementation of `NST` <br>
 12/06/2025: Release of `v2.9.1.4` <br>
 12/01/2025: Release of `v2.9.1.3` <br>
@@ -69,11 +70,11 @@ $ sh scripts/test.sh
 11/27/2025: Implementation of `WideResNet` <br>
 11/27/2025: Release of `v2.9.1.1` <br>
 11/24/2025: Implementation of `ESRGAN` <br>
-11/21/2025: Implementation of `SRGAN` <br>
 
 <details>
 <summary>See more...</summary>
   
+11/21/2025: Implementation of `SRGAN` <br>
 11/19/2025: Implementation of `DiT` <br>
 11/14/2025: Release of `v2.9.1` <br>
 11/01/2025: Implementation of `NeRF` and `3DGS` <br>
@@ -434,6 +435,12 @@ $ sh scripts/test.sh
     <td><a href="https://openaccess.thecvf.com/content_cvpr_2016/html/Gatys_Image_Style_Transfer_CVPR_2016_paper.html">L. A. Gatys et al.</a></td>
     <td>CVPR 2016</td>
     <td><a href="Style_Transfer/NST">NST</a></td>
+  </tr>
+  <tr>
+    <td>Adaptive Instance Normalization</td>
+    <td><a href="https://openaccess.thecvf.com/content_iccv_2017/html/Huang_Arbitrary_Style_Transfer_ICCV_2017_paper.html">X. Huang et al.</a></td>
+    <td>ICCV 2017</td>
+    <td><a href="Style_Transfer/AdaIN">AdaIN</a></td>
   </tr>
 </table>
 
