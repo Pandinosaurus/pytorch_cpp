@@ -1,20 +1,20 @@
-#include <iostream>                    // std::cout, std::flush
-#include <fstream>                     // std::ifstream, std::ofstream
-#include <filesystem>                  // std::filesystem
-#include <string>                      // std::string
-#include <sstream>                     // std::stringstream
-#include <tuple>                       // std::tuple
-#include <vector>                      // std::vector
-#include <utility>                     // std::pair
-#include <cstdlib>                     // std::exit
+#include <iostream>
+#include <fstream>
+#include <filesystem>
+#include <string>
+#include <sstream>
+#include <tuple>
+#include <vector>
+#include <utility>
+#include <cstdlib>
 // For External Library
-#include <torch/torch.h>               // torch
-#include <boost/program_options.hpp>   // boost::program_options
+#include <torch/torch.h>
+#include <boost/program_options.hpp>
 // For Original Header
-#include "loss.hpp"                    // Loss
-#include "networks.hpp"                // MC_VGGNet
-#include "visualizer.hpp"              // visualizer
-#include "progress.hpp"                // progress
+#include "loss.hpp"
+#include "networks.hpp"
+#include "visualizer.hpp"
+#include "progress.hpp"
 
 // Define Namespace
 namespace fs = std::filesystem;
@@ -33,8 +33,8 @@ torch::Tensor adaptive_instance_normalization(torch::Tensor content_feature, tor
 // -------------------
 void generate(po::variables_map &vm, torch::Device &device){
 
-    constexpr std::string_view extension = "png";  // the extension of file name to save sample images
-    constexpr std::pair<float, float> output_range = {0.0, 1.0};  // range of the value in output images
+    constexpr std::string_view extension = "png";
+    constexpr std::pair<float, float> output_range = {0.0, 1.0};
 
     // -----------------------------------
     // a0. Initialization and Declaration
@@ -46,41 +46,50 @@ void generate(po::variables_map &vm, torch::Device &device){
     std::ofstream ofs;
     std::stringstream ss;
     torch::Tensor content_image, style_image, generated;
-    torch::Tensor loss, content_loss, style_loss, target_feature, gen_mean, gen_std, style_mean, style_std;
+    torch::Tensor loss, content_loss, style_loss, target_feature, adain_output;
+    torch::Tensor gen_mean, gen_std, style_mean, style_std;
     progress::display *show_progress;
     std::map<std::string, torch::Tensor> content_features, style_features, generated_features;
-    MC_VGGNet vgg;
+    MC_VGGNet encoder;
+    Decoder decoder;
 
 
     // -----------------------------------
     // a1. Preparation
     // -----------------------------------
 
-    // (1) Load VGG model
-    vgg->to(device);
-    torch::load(vgg, vm["vgg_path"].as<std::string>(), device);
-    vgg->eval();
+    // (1) Load VGG Encoder
+    encoder->to(device);
+    torch::load(encoder, vm["vgg_path"].as<std::string>(), device);
+    encoder->eval();  // Encoder is fixed (not trained)
+    
+    // Freeze encoder parameters
+    for (auto& param : encoder->parameters()) {
+        param.requires_grad_(false);
+    }
 
-    // (2) Extract Features for Content and Style
+    // (2) Initialize Decoder
+    decoder->to(device);
+    decoder->train();  // Decoder will be trained
+
+    // (3) Extract Features for Content and Style (Fixed)
+    torch::Tensor content_feature_relu4_1, style_feature_relu4_1;
     {
-
         torch::NoGradGuard no_grad;
 
         content_image = load_image("datasets/" + vm["dataset"].as<std::string>() + "/" + vm["content"].as<std::string>(), 0, 0, device);
         style_image = load_image("datasets/" + vm["dataset"].as<std::string>() + "/" + vm["style"].as<std::string>(), content_image.size(3), content_image.size(2), device);
-        content_features = vgg->forward(preprocess(content_image.clone()));
-        style_features = vgg->forward(preprocess(style_image.clone()));
-
-        target_feature = adaptive_instance_normalization(content_features["relu4_1"], style_features["relu4_1"]);
+        
+        content_features = encoder->forward(preprocess(content_image.clone()));
+        style_features = encoder->forward(preprocess(style_image.clone()));
+        
+        content_feature_relu4_1 = content_features["relu4_1"];
+        style_feature_relu4_1 = style_features["relu4_1"];
         
     }
 
-    // (3) Prepare Generated Image
-    generated = content_image.detach().clone();
-    generated.requires_grad_(true);
-
-    // (4) Set Optimizer Method
-    auto optimizer = torch::optim::Adam({generated}, torch::optim::AdamOptions(vm["lr"].as<float>()).betas({vm["beta1"].as<float>(), vm["beta2"].as<float>()}));
+    // (4) Set Optimizer Method (for Decoder only)
+    auto optimizer = torch::optim::Adam(decoder->parameters(), torch::optim::AdamOptions(vm["lr"].as<float>()).betas({vm["beta1"].as<float>(), vm["beta2"].as<float>()}));
 
     // (5) Set Loss Function
     auto criterion = Loss(vm["loss"].as<std::string>());
@@ -93,18 +102,29 @@ void generate(po::variables_map &vm, torch::Device &device){
 
 
     // -----------------------------------
-    // a2. Training Image
+    // a2. Training Decoder
     // -----------------------------------
     
-    // (1) Training
+    // (1) Training Loop
     iterations = vm["iterations"].as<size_t>();
     style_layers = {"relu1_1", "relu2_1", "relu3_1", "relu4_1", "relu5_1"};
     show_progress = new progress::display(/*count_max_=*/iterations, /*epoch=*/{1, 1}, /*loss_=*/{"loss"});
+    
     for (size_t iteration = 0; iteration < iterations; iteration++){
 
-        generated_features = vgg->forward(preprocess(generated));
+        // Apply AdaIN
+        target_feature = adaptive_instance_normalization(content_feature_relu4_1, style_feature_relu4_1);
+        
+        // Decode
+        generated = decoder->forward(target_feature);
 
+        // Extract features from generated image
+        generated_features = encoder->forward(generated);
+
+        // Content Loss (in feature space)
         content_loss = criterion(generated_features["relu4_1"], target_feature.detach());
+
+        // Style Loss (match mean and std at multiple layers)
         style_loss = torch::zeros({}).to(device);
         for (const auto &layer : style_layers){
             std::tie(gen_mean, gen_std) = calc_mean_std(generated_features[layer]);
@@ -112,22 +132,34 @@ void generate(po::variables_map &vm, torch::Device &device){
             style_loss += criterion(gen_mean, style_mean);
             style_loss += criterion(gen_std, style_std);
         }
+
+        // Total Loss
         loss = vm["content_weight"].as<float>() * content_loss + vm["style_weight"].as<float>() * style_loss;
 
+        // Backward and optimize
         optimizer.zero_grad();
         loss.backward();
         optimizer.step();
 
         show_progress->increment(/*loss_value=*/{loss.item<float>()});
         ofs << "iters:" << show_progress->get_iters() << '/' << iterations << ' ' << std::flush;
-        ofs << "loss:" << loss.item<float>() << std::endl;
+        ofs << "loss:" << loss.item<float>() << " content:" << content_loss.item<float>() << " style:" << style_loss.item<float>() << std::endl;
         
     }
     delete show_progress;
 
-    // (2) Save Image
+    // (2) Generate Final Image
+    decoder->eval();
+    {
+        torch::NoGradGuard no_grad;
+        target_feature = adaptive_instance_normalization(content_feature_relu4_1, style_feature_relu4_1);
+        generated = decoder->forward(target_feature);
+        generated = postprocess(generated);
+    }
+
+    // (3) Save Image
     ss.str(""); ss.clear(std::stringstream::goodbit);
-    ss << result_dir << "/Generated_Image."  << extension;
+    ss << result_dir << "/Generated_Image." << extension;
     visualizer::save_image(generated.detach(), ss.str(), /*range=*/output_range, /*cols=*/1, /*padding=*/0);
 
     // Post Processing

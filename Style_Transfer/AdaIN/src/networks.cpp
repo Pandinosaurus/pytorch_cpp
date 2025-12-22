@@ -73,6 +73,108 @@ std::map<std::string, torch::Tensor> MC_VGGNetImpl::forward(torch::Tensor x){
 }
 
 
+// ----------------------------------------------------------------------
+// struct{DecoderImpl}(nn::Module) -> constructor
+// ----------------------------------------------------------------------
+DecoderImpl::DecoderImpl(){
+    
+    // reflection padding
+    this->pad = nn::ReflectionPad2d(1);
+    register_module("pad", this->pad);
+    
+    // decoder layers (mirror of encoder up to relu4_1)
+    this->conv4_1 = nn::Conv2d(nn::Conv2dOptions(512, 256, 3).padding(0));
+    register_module("conv4_1", this->conv4_1);
+    
+    this->conv3_4 = nn::Conv2d(nn::Conv2dOptions(256, 256, 3).padding(0));
+    register_module("conv3_4", this->conv3_4);
+    
+    this->conv3_3 = nn::Conv2d(nn::Conv2dOptions(256, 256, 3).padding(0));
+    register_module("conv3_3", this->conv3_3);
+    
+    this->conv3_2 = nn::Conv2d(nn::Conv2dOptions(256, 256, 3).padding(0));
+    register_module("conv3_2", this->conv3_2);
+    
+    this->conv3_1 = nn::Conv2d(nn::Conv2dOptions(256, 128, 3).padding(0));
+    register_module("conv3_1", this->conv3_1);
+    
+    this->conv2_2 = nn::Conv2d(nn::Conv2dOptions(128, 128, 3).padding(0));
+    register_module("conv2_2", this->conv2_2);
+    
+    this->conv2_1 = nn::Conv2d(nn::Conv2dOptions(128, 64, 3).padding(0));
+    register_module("conv2_1", this->conv2_1);
+    
+    this->conv1_2 = nn::Conv2d(nn::Conv2dOptions(64, 64, 3).padding(0));
+    register_module("conv1_2", this->conv1_2);
+    
+    this->conv1_1 = nn::Conv2d(nn::Conv2dOptions(64, 3, 3).padding(0));
+    register_module("conv1_1", this->conv1_1);
+    
+    this->relu = nn::ReLU(nn::ReLUOptions().inplace(true));
+    register_module("relu", this->relu);
+
+    this->upsample = nn::Upsample(nn::UpsampleOptions().scale_factor(std::vector<double>{2.0, 2.0}).mode(torch::kNearest));
+    register_module("upsample", this->upsample);
+
+}
+
+
+// ---------------------------------------------------------
+// struct{DecoderImpl}(nn::Module) -> function{forward}
+// ---------------------------------------------------------
+torch::Tensor DecoderImpl::forward(torch::Tensor x){
+    
+    // conv4_1
+    x = this->pad(x);
+    x = this->conv4_1(x);
+    x = this->relu(x);
+    x = this->upsample(x);
+    
+    // conv3_4
+    x = this->pad(x);
+    x = this->conv3_4(x);
+    x = this->relu(x);
+    
+    // conv3_3
+    x = this->pad(x);
+    x = this->conv3_3(x);
+    x = this->relu(x);
+    
+    // conv3_2
+    x = this->pad(x);
+    x = this->conv3_2(x);
+    x = this->relu(x);
+    
+    // conv3_1
+    x = this->pad(x);
+    x = this->conv3_1(x);
+    x = this->relu(x);
+    x = this->upsample(x);
+    
+    // conv2_2
+    x = this->pad(x);
+    x = this->conv2_2(x);
+    x = this->relu(x);
+    
+    // conv2_1
+    x = this->pad(x);
+    x = this->conv2_1(x);
+    x = this->relu(x);
+    x = this->upsample(x);
+    
+    // conv1_2
+    x = this->pad(x);
+    x = this->conv1_2(x);
+    x = this->relu(x);
+    
+    // conv1_1 (final layer, no ReLU)
+    x = this->pad(x);
+    x = this->conv1_1(x);
+    
+    return x;
+}
+
+
 // ----------------------------
 // function{make_layers}
 // ----------------------------

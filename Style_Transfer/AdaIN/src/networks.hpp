@@ -26,8 +26,23 @@ public:
     MC_VGGNetImpl();
     std::map<std::string, torch::Tensor> forward(torch::Tensor x);
 };
-
 TORCH_MODULE(MC_VGGNet);
+
+// -------------------------------------------------
+// struct{DecoderImpl}(nn::Module) - Decoder
+// -------------------------------------------------
+struct DecoderImpl : nn::Module{
+private:
+    nn::Conv2d conv4_1{nullptr}, conv3_4{nullptr}, conv3_3{nullptr}, conv3_2{nullptr}, conv3_1{nullptr};
+    nn::Conv2d conv2_2{nullptr}, conv2_1{nullptr}, conv1_2{nullptr}, conv1_1{nullptr};
+    nn::ReLU relu{nullptr};
+    nn::ReflectionPad2d pad{nullptr};
+    nn::Upsample upsample{nullptr};
+public:
+    DecoderImpl();
+    torch::Tensor forward(torch::Tensor x);
+};
+TORCH_MODULE(Decoder);
 
 
 #endif
