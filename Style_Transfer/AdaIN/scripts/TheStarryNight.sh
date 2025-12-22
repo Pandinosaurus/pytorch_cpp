@@ -4,7 +4,7 @@ DATA='TheStarryNight'
 
 ./AdaIN \
     --generate true \
-    --iterations 1000 \
+    --iterations 5000 \
     --dataset ${DATA} \
     --content "content.png" \
     --style "style.png" \

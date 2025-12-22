@@ -40,7 +40,7 @@ po::options_description parse_arguments(){
         ("generate", po::value<bool>()->default_value(false), "generation mode on/off")
         ("content", po::value<std::string>()->default_value("content.png"), "content image path")
         ("style", po::value<std::string>()->default_value("style.png"), "style image path")
-        ("iterations", po::value<size_t>()->default_value(1000), "training iterations for decoder")
+        ("iterations", po::value<size_t>()->default_value(5000), "training iterations for decoder")
         ("result_dir", po::value<std::string>()->default_value("result"), "result directory : ./<result_dir>")
 
         // (3) Define for Network Parameter
@@ -49,7 +49,7 @@ po::options_description parse_arguments(){
         ("beta2", po::value<float>()->default_value(0.999), "beta 2 in Adam of optimizer method")
         ("vgg_path", po::value<std::string>()->default_value("vgg19_bn.pth"), "path to pretrained VGG encoder weights")
         ("content_weight", po::value<float>()->default_value(1.0), "weight for content loss")
-        ("style_weight", po::value<float>()->default_value(10.0), "weight for style loss")
+        ("style_weight", po::value<float>()->default_value(1.0), "weight for style loss")
 
     ;
     
