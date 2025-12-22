@@ -24,7 +24,8 @@ namespace po = boost::program_options;
 torch::Tensor load_image(const std::string &path, const int width, const int height, torch::Device &device);
 torch::Tensor preprocess(torch::Tensor image);
 torch::Tensor postprocess(torch::Tensor image);
-torch::Tensor gram_matrix(torch::Tensor feature);
+std::pair<torch::Tensor, torch::Tensor> calc_mean_std(torch::Tensor feature);
+torch::Tensor adaptive_instance_normalization(torch::Tensor content_feature, torch::Tensor style_feature);
 
 
 // -------------------
@@ -45,9 +46,9 @@ void generate(po::variables_map &vm, torch::Device &device){
     std::ofstream ofs;
     std::stringstream ss;
     torch::Tensor content_image, style_image, generated;
-    torch::Tensor loss, content_loss, style_loss, gen_gram;
+    torch::Tensor loss, content_loss, style_loss, target_feature, gen_mean, gen_std, style_mean, style_std;
     progress::display *show_progress;
-    std::map<std::string, torch::Tensor> content_features, style_features, style_grams, generated_features;
+    std::map<std::string, torch::Tensor> content_features, style_features, generated_features;
     MC_VGGNet vgg;
 
 
@@ -70,9 +71,7 @@ void generate(po::variables_map &vm, torch::Device &device){
         content_features = vgg->forward(preprocess(content_image.clone()));
         style_features = vgg->forward(preprocess(style_image.clone()));
 
-        for (const auto &kv : style_features){
-            style_grams[kv.first] = gram_matrix(kv.second);
-        }
+        target_feature = adaptive_instance_normalization(content_features["relu4_1"], style_features["relu4_1"]);
         
     }
 
@@ -105,11 +104,13 @@ void generate(po::variables_map &vm, torch::Device &device){
 
         generated_features = vgg->forward(preprocess(generated));
 
-        content_loss = criterion(generated_features["relu4_2"], content_features["relu4_2"]);
+        content_loss = criterion(generated_features["relu4_1"], target_feature.detach());
         style_loss = torch::zeros({}).to(device);
         for (const auto &layer : style_layers){
-            gen_gram = gram_matrix(generated_features[layer]);
-            style_loss += criterion(gen_gram, style_grams[layer]);
+            std::tie(gen_mean, gen_std) = calc_mean_std(generated_features[layer]);
+            std::tie(style_mean, style_std) = calc_mean_std(style_features[layer]);
+            style_loss += criterion(gen_mean, style_mean);
+            style_loss += criterion(gen_std, style_std);
         }
         loss = vm["content_weight"].as<float>() * content_loss + vm["style_weight"].as<float>() * style_loss;
 
@@ -190,23 +191,31 @@ torch::Tensor postprocess(torch::Tensor image){
 }
 
 
-// ----------------------
-// Gram Matrix Function
-// ----------------------
-torch::Tensor gram_matrix(torch::Tensor feature){
+// ---------------------------------
+// Mean and Standard Deviation Calc
+// ---------------------------------
+std::pair<torch::Tensor, torch::Tensor> calc_mean_std(torch::Tensor feature){
 
-    long int N, C, H, W;
-    torch::Tensor f, gram;
+    torch::Tensor mean, std;
 
-    N = feature.size(0);
-    C = feature.size(1);
-    H = feature.size(2);
-    W = feature.size(3);
+    mean = feature.mean(/*dim=*/{2, 3}, /*keepdim=*/true);
+    std = torch::sqrt(feature.var(/*dim=*/{2, 3}, /*unbiased=*/false, /*keepdim=*/true) + 1e-5);
 
-    f = feature.contiguous().view({N, C, -1});
-    gram = torch::bmm(f, f.transpose(1, 2));
-    gram = gram / (double)(C * H * W);
+    return {mean, std};
 
-    return gram;
+}
+
+
+// ---------------------------------
+// Adaptive Instance Normalization
+// ---------------------------------
+torch::Tensor adaptive_instance_normalization(torch::Tensor content_feature, torch::Tensor style_feature){
+
+    torch::Tensor content_mean, content_std, style_mean, style_std;
+
+    std::tie(content_mean, content_std) = calc_mean_std(content_feature);
+    std::tie(style_mean, style_std) = calc_mean_std(style_feature);
+
+    return style_std * (content_feature - content_mean) / content_std + style_mean;
 
 }

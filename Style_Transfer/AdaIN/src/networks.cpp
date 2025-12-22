@@ -63,7 +63,7 @@ std::map<std::string, torch::Tensor> MC_VGGNetImpl::forward(torch::Tensor x){
     for (auto &m : *features){
         x = m.forward<torch::Tensor>(x);
         name = this->layer_names[i++];
-        if ((name == "relu4_2") || (name == "relu1_1") || (name == "relu2_1") || (name == "relu3_1") || (name == "relu4_1") || (name == "relu5_1")){
+        if ((name == "relu1_1") || (name == "relu2_1") || (name == "relu3_1") || (name == "relu4_1") || (name == "relu5_1")){
             outputs[name] = x;
         }
     }

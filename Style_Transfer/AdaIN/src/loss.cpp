@@ -30,7 +30,7 @@ Loss::Loss(const std::string loss){
 // -----------------------------------
 // class{Loss} -> operator
 // -----------------------------------
-torch::Tensor Loss::operator()(torch::Tensor &input, torch::Tensor &target){
+torch::Tensor Loss::operator()(torch::Tensor input, torch::Tensor target){
     if (this->judge == 0){
         static auto criterion = torch::nn::L1Loss(torch::nn::L1LossOptions().reduction(torch::kMean));
         return criterion(input, target);
