@@ -48,6 +48,8 @@ Representation_Learning/MAE
 Representation_Learning/SimCLR
 Semantic_Segmentation/SegNet
 Semantic_Segmentation/U-Net_Classification
+Style_Transfer/AdaIN
+Style_Transfer/NST
 Super_Resolution/ESRGAN
 Super_Resolution/SRGAN
 View_Synthesis/NeRF

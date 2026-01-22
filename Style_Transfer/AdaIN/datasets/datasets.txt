@@ -1,0 +1,18 @@
+1. What kind of dataset do you need?
+
+Please prepare images that can be read by OpenCV.
+
+
+2. What kind of hierarchical relationship do you need?
+
+The following hierarchical relationships are recommended.
+
+---------------------------------------------------------
+datasets
+|--Dataset1
+|    |--content.png
+|    |--style.png
+|
+|--Dataset2
+|--Dataset3
+---------------------------------------------------------

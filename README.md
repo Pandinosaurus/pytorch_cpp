@@ -3,7 +3,7 @@
 # 🔥 PyTorch C++ Samples 🔥
   
 [![Language](https://img.shields.io/badge/Language-C++-blue)]()
-[![LibTorch](https://img.shields.io/badge/LibTorch-2.9.1-orange)]()
+[![LibTorch](https://img.shields.io/badge/LibTorch-2.10.0-orange)]()
 [![OS](https://img.shields.io/badge/OS-Ubuntu-yellow)]()
 [![OS](https://img.shields.io/badge/License-MIT-green)]()
 ![sample1](sample1.png)
@@ -60,6 +60,9 @@ $ sh scripts/test.sh
 
 ## 🔄 Updates (MM/DD/YYYY)
 
+01/22/2026: Release of `v2.10.0` <br>
+12/22/2025: Implementation of `AdaIN` <br>
+12/20/2025: Implementation of `NST` <br>
 12/06/2025: Release of `v2.9.1.4` <br>
 12/01/2025: Release of `v2.9.1.3` <br>
 12/01/2025: Implementation of `PatchCore` <br>
@@ -67,13 +70,13 @@ $ sh scripts/test.sh
 11/29/2025: Implementation of `PaDiM` <br>
 11/27/2025: Implementation of `WideResNet` <br>
 11/27/2025: Release of `v2.9.1.1` <br>
-11/24/2025: Implementation of `ESRGAN` <br>
-11/21/2025: Implementation of `SRGAN` <br>
-11/19/2025: Implementation of `DiT` <br>
 
 <details>
 <summary>See more...</summary>
   
+11/24/2025: Implementation of `ESRGAN` <br>
+11/21/2025: Implementation of `SRGAN` <br>
+11/19/2025: Implementation of `DiT` <br>
 11/14/2025: Release of `v2.9.1` <br>
 11/01/2025: Implementation of `NeRF` and `3DGS` <br>
 10/16/2025: Release of `v2.9.0` <br>
@@ -419,6 +422,29 @@ $ sh scripts/test.sh
   </tr>
 </table>
 
+### 🖌️ Style Transfer
+
+<table>
+  <tr>
+    <th>Model</th>
+    <th>Paper</th>
+    <th>Conference/Journal</th>
+    <th>Code</th>
+  </tr>
+  <tr>
+    <td>Neural Style Transfer</td>
+    <td><a href="https://openaccess.thecvf.com/content_cvpr_2016/html/Gatys_Image_Style_Transfer_CVPR_2016_paper.html">L. A. Gatys et al.</a></td>
+    <td>CVPR 2016</td>
+    <td><a href="Style_Transfer/NST">NST</a></td>
+  </tr>
+  <tr>
+    <td>Adaptive Instance Normalization</td>
+    <td><a href="https://openaccess.thecvf.com/content_iccv_2017/html/Huang_Arbitrary_Style_Transfer_ICCV_2017_paper.html">X. Huang et al.</a></td>
+    <td>ICCV 2017</td>
+    <td><a href="Style_Transfer/AdaIN">AdaIN</a></td>
+  </tr>
+</table>
+
 ### 🧩 Semantic Segmentation
 
 <table>
@@ -592,15 +618,15 @@ $ sh scripts/test.sh
 Please select the environment to use as follows on PyTorch official. <br>
 PyTorch official : https://pytorch.org/ <br>
 ***
-PyTorch Build : Stable (2.9.1) <br>
+PyTorch Build : Stable (2.10.0) <br>
 Your OS : Linux <br>
 Package : LibTorch <br>
 Language : C++ / Java <br>
 Run this Command : Download here (cxx11 ABI) <br>
-CUDA 12.6 : https://download.pytorch.org/libtorch/cu126/libtorch-shared-with-deps-2.9.1%2Bcu126.zip <br>
-CUDA 12.8 : https://download.pytorch.org/libtorch/cu128/libtorch-shared-with-deps-2.9.1%2Bcu128.zip <br>
-CUDA 13.0 : https://download.pytorch.org/libtorch/cu130/libtorch-shared-with-deps-2.9.1%2Bcu130.zip <br>
-CPU : https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.9.1%2Bcpu.zip <br>
+CUDA 12.6 : https://download.pytorch.org/libtorch/cu126/libtorch-shared-with-deps-2.10.0%2Bcu126.zip <br>
+CUDA 12.8 : https://download.pytorch.org/libtorch/cu128/libtorch-shared-with-deps-2.10.0%2Bcu128.zip <br>
+CUDA 13.0 : https://download.pytorch.org/libtorch/cu130/libtorch-shared-with-deps-2.10.0%2Bcu130.zip <br>
+CPU : https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.10.0%2Bcpu.zip <br>
 ***
 
 ### 2. OpenCV
